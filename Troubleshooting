@@ -1,33 +1,42 @@
-We gaan eerst het IP-adres controleren d.m.v
-ip –a
--> indien fouten, kijken bij:
-cd/etc/sysconfig/network-scripts
 
-Voor het configureren van het juiste ip-adres voeren we volgend commando’s uit. Dit commando geeft ons administrator rechten om het ip van enp0s8 aan te passen.
-Sudo vi ifconfig -enp0s8
+##Checklist voor troubleshooting
+* Altijd een checklist gebruiken
+* checklist up-to-date houden
+* Nooit stappen overslaan (kabels nakijken enzo)
+* Bottom-up volgens TCP/IP of OSI model
+* Errors messages googlen
+* Werk in kleine stapjes stap voor stap
+* Test regelmatig.
+* backup van de laatste werkende versie bijhouden
+* Valideer configuratie bestanden 
+* Weet naar welke logs je moet kijken
+* Gebruik apart terminal venster om de logs in "realtime" weer te geven (`journalctl -f`)
 
-Wee passen dan deze file aan:
-BOOTPROTO=”static” -> deze stond eerst op none
-IPADDR = 192.168.56.0
-Netmask=255.255.255.0
-NM_CONTROLLED = no
+##Werkwijze
+In virtual box aanvinken: kabel aangesloten moet aangevinkt zijn 
+ip a -> ip controleren
+cd/etc/sysconfig/network-scripts -> fouten nakijken
+  BOOTPROTO=”none" deze kunnen ook op dynamisch of static
+  IPADDR = 192.168.56.14 -> het nieuwe IP
+  Netmask = 255.255.255.0
+  NM_CONTROLLED = no
 
-We herstarten de netwerkservice:
-sudo systeml restart network.service 
-
-Controleren of het IP nu goed is:
-ip –a
-
-We vragen de status op van de httpd.service:
-sudo systeml status httpd.service
-
-Deze is uitgeschakeld dus zetten we hem aan met: 
-sudo systeml start httpd.service
+* We herstarten de netwerkservice: sudo systeml restart network.service 
+* Controleren of het IP nu goed is: ip a
+* We vragen de status op van de httpd.service: sudo systeml status httpd.service
+* Deze is uitgeschakeld? inschakelen met: sudo systeml start httpd.service
 
 We voegen http toe aan de publieke zone:
 Firewall –cmd [--permanent] [--zone=public] –add –service=http
-Firewall –cmd [--permanent] [--zone=public] –add –service=https -> voor https
+Firewall –cmd [--permanent] [--zone=public] –add –service=https
 
-Poorten toevoegen: poort 80 en poort 443
+Poorten toevoegen : poort 80 en poort 443
 Firewall –cmd [--permanent] [--zone=public] –add –port=80/tcp
 Firewall –cmd [--permanent] [--zone=public] –add –port=443/tcp
+
+Config file aanpassen 
+/etc/httpd/httpd.conf
+Listen 80
+Servername 192.168.56.14:80
+We herstarten de service dit werkt
+
