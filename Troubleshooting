@@ -1,0 +1,33 @@
+We gaan eerst het IP-adres controleren d.m.v
+ip –a
+-> indien fouten, kijken bij:
+cd/etc/sysconfig/network-scripts
+
+Voor het configureren van het juiste ip-adres voeren we volgend commando’s uit. Dit commando geeft ons administrator rechten om het ip van enp0s8 aan te passen.
+Sudo vi ifconfig -enp0s8
+
+Wee passen dan deze file aan:
+BOOTPROTO=”static” -> deze stond eerst op none
+IPADDR = 192.168.56.0
+Netmask=255.255.255.0
+NM_CONTROLLED = no
+
+We herstarten de netwerkservice:
+sudo systeml restart network.service 
+
+Controleren of het IP nu goed is:
+ip –a
+
+We vragen de status op van de httpd.service:
+sudo systeml status httpd.service
+
+Deze is uitgeschakeld dus zetten we hem aan met: 
+sudo systeml start httpd.service
+
+We voegen http toe aan de publieke zone:
+Firewall –cmd [--permanent] [--zone=public] –add –service=http
+Firewall –cmd [--permanent] [--zone=public] –add –service=https -> voor https
+
+Poorten toevoegen: poort 80 en poort 443
+Firewall –cmd [--permanent] [--zone=public] –add –port=80/tcp
+Firewall –cmd [--permanent] [--zone=public] –add –port=443/tcp
