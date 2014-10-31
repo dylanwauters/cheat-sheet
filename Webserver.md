@@ -4,7 +4,8 @@
 
 ##http toevoegen
 * firewall-cmd [--permanent] [--zone=ZONE] --add-service=http
-##Configuratie Firewall
+
+###Configuratie Firewall
 * name: Configure firewall: 
 firewalld: service=http state=enabled permanent=no 
 * name: Configure firewall (permanent):
