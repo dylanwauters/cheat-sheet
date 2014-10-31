@@ -4,11 +4,10 @@
 
 ##http toevoegen
 * firewall-cmd [--permanent] [--zone=ZONE] --add-service=http
-##Automatisering
-###in de main.yml
-- name: Configure firewall 
+##Configuratie Firewall
+* name: Configure firewall: 
 firewalld: service=http state=enabled permanent=no 
-- name: Configure firewall (permanent)
+* name: Configure firewall (permanent):
 firewalld: service=http state=enabled permanent=yes.
 
 ##Aanmaken van testcertificaat door volgende commando’s:
