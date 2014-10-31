@@ -1,6 +1,6 @@
---Aanpassen van Firewall settings
-//lijst van zones zones en hun services, interfaces 
-systemctl list-units --type service
+# Aanpassen van Firewall settings
+* lijst van zones zones en hun services, interfaces 
+** systemctl list-units --type service
 //http toevoegen
 firewall-cmd [--permanent] [--zone=ZONE] --add-service=http
 // in de main.yml --> automatisering
